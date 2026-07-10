@@ -1,40 +1,43 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
+#define all(x) x.begin(), x.end()
 
-int main(){
+int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    int n;
-    cin >> n;
-    vector<ll> a(n + 1);
-    for (int i = 1; i <= n; i++) cin >> a[i];
-
-    ll bestSum = LLONG_MIN;
-    int toBuy = 1, toSell = 1;
-
-    ll curSum = 0;
-    int curStart = 1;
-
-    for (int i = 1; i <= n; i++) {
-        curSum += a[i];
-
-        if (curSum > bestSum) {
-            bestSum = curSum;
-            toBuy = curStart;
-            toSell = i;
+    int t;
+    scanf("%d", &t);
+    
+    while (t--) {
+        ll n;
+        scanf("%lld", &n);
+        
+        if (n == 0) {
+            printf("10\n");
+            continue;
         }
-
-        if (curSum < 0) {
-            curSum = 0;
-            curStart = i + 1;
+        if (n == 1) {
+            printf("1\n");
+            continue;
         }
-    }
-
-    if (bestSum <= 0) {
-        cout << -1 << ' ' << -1 << '\n';
-    } else {
-        cout << toBuy << ' ' << (toSell + 1) << '\n';
+        
+        vector<int> digits;
+        for (int d = 9; d >= 2; d--) {
+            while (n % d == 0) {
+                digits.push_back(d);
+                n /= d;
+            }
+        }
+        
+        if (n != 1) {
+            printf("-1\n");
+        } else {
+            sort(all(digits));
+            string res;
+            for (int d : digits) res += char('0' + d);
+            printf("%s\n", res.c_str());
+        }
     }
 }
